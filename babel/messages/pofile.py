@@ -329,7 +329,8 @@ class PoFileParser(object):
         print(u"WARNING: Problem on line {0}: {1}".format(lineno + 1, repr(line)))
 
 
-def read_po(fileobj, locale=None, domain=None, ignore_obsolete=False, charset=None, abort_invalid=False):
+def read_po(fileobj, locale=None, domain=None, ignore_obsolete=False,
+        charset=None, abort_invalid=False, is_template=False):
     """Read messages from a ``gettext`` PO (portable object) file from the given
     file-like object and return a `Catalog`.
 
@@ -376,7 +377,8 @@ def read_po(fileobj, locale=None, domain=None, ignore_obsolete=False, charset=No
     :param charset: the character set of the catalog.
     :param abort_invalid: abort read if po file is invalid
     """
-    catalog = Catalog(locale=locale, domain=domain, charset=charset)
+    catalog = Catalog(locale=locale, domain=domain, charset=charset,
+            is_template=is_template)
     parser = PoFileParser(catalog, ignore_obsolete, abort_invalid=abort_invalid)
     parser.parse(fileobj)
     return catalog

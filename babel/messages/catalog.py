@@ -246,7 +246,7 @@ class Catalog(object):
                  project=None, version=None, copyright_holder=None,
                  msgid_bugs_address=None, creation_date=None,
                  revision_date=None, last_translator=None, language_team=None,
-                 charset=None, fuzzy=True):
+                 charset=None, fuzzy=True, is_template=False):
         """Initialize the catalog object.
 
         :param locale: the locale identifier or `Locale` object, or `None`
@@ -299,6 +299,8 @@ class Catalog(object):
         self.obsolete = OrderedDict()  # Dictionary of obsolete messages
         self._num_plurals = None
         self._plural_expr = None
+
+        self._is_template = is_template
 
     def _set_locale(self, locale):
         if locale is None:
@@ -424,7 +426,7 @@ class Catalog(object):
                 self.msgid_bugs_address = value
             elif name == 'last-translator':
                 self.last_translator = value
-            elif name == 'language':
+            elif name == 'language' and not self._is_template:
                 value = value.replace('-', '_')
                 self._set_locale(value)
             elif name == 'language-team':
